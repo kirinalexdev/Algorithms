@@ -1,6 +1,23 @@
 
-// Поиск в глубину в связном графе
+// Обход в ширину в связном ориентированном графе
 // https://cf2.ppt-online.org/files2/slide/n/NnzFOd456oLM9bPREBqJf7eHvGmiwYAQTp108Z/slide-10.jpg
+
+// https://www.planttext.com
+//
+//@startuml
+//digraph G {
+//        0 -> 0
+//        0 -> 3
+//        1 -> 0
+//        1 -> 2
+//        1 -> 5
+//        2 -> 4
+//        3 -> 4
+//        3 -> 5
+//        4 -> 5
+//        5 -> 2
+//        }
+//@enduml
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,45 +39,35 @@ public class BreadthFirstSearch {
         graph.addAdjacency(4, 5);
         graph.addAdjacency(5, 2);
 
-        var processed = new boolean[6];
-        var wasInQueue = new boolean[6]; //!!! может быть не нужно это если нужно узнать все пути?..
-        var randomVertex = 0;
-        var queue = new LinkedList<Integer>(); //!!! может есть проще очередь?
-        // 1.
-        BFS(graph, randomVertex, processed, queue, wasInQueue); // граф связный поэтому достаточно одной точки входа
+        var dim = 6;
 
+        // Можно еще добавить рассчет расстояний, запоминание пути
 
-        // Здесь рассматриваем граф
-        // - невзвешенный
-        // - неориентированный
-
-        // Цель алгоритма
-        // - найти самый коротки путь из вершины
-        //todo реализовать эту цель
-
-        // 1. Заходим в вершину
-        // 2. У вершины получаем смежные с ней и помещаем в очередь (FIFO)
-        // 3. Извлекаем поочередно вершины из очереди и выполняем п.1
+        // 0 - не обработанные
+        // 1 - в очереди
+        // 2 - обработанные
+        var state = new byte[dim];
+        var rootVertex = 0;
+        var queue = new ArrayDeque<Integer>();
+        BFS(graph, rootVertex, state, queue); // граф связный поэтому достаточно одной точки входа
     }
 
-    static void BFS(Graph graph, int vertex, boolean[] processed, Queue<Integer> queue, boolean[] wasInQueue) {
-//        if (processed[vertex]) { // дальше не идем, уже проходили это вершину
-//            return;
-//        }
+    static void BFS(Graph graph, int v1, byte[] state, Queue<Integer> queue) {
+        state[v1] = 2; // помечам вершину как пройденную
+        System.out.println(v1);
 
-        processed[vertex] = true; // помечам вершину как пройденную
-        System.out.println(vertex);
-
-        // 2.
-        for (Integer adjacentVertex: graph.getAdjacency().get(vertex)) {
-            if (!processed[adjacentVertex] && !wasInQueue[adjacentVertex] ) {
-                wasInQueue[adjacentVertex] = true; // помечам вершину как побывавшую в очереди
-                queue.offer(adjacentVertex);
+        // обходим смежные вершины помещаем в очередь
+        for (Integer adjacentV: graph.getAdjacency().get(v1)) {
+            if (state[adjacentV] == 0) {
+                state[adjacentV] = 1; // помечам вершину как в очереди
+                queue.offer(adjacentV);
             }
         }
 
+        // обходим вершины в очереди
         while (!queue.isEmpty()) {
-            BFS(graph, queue.poll(), processed, queue, wasInQueue);
+            var v2 = queue.poll();
+            BFS(graph, v2, state, queue);
         }
     }
 }
@@ -71,13 +78,10 @@ class Graph{
     // для каждой вершины хранится список смежных с ней вершин
     private Map<Integer, List<Integer>> adjacency = new HashMap<>();
 
-    // т.к. граф неоринтированный то добавляем смежности в обе стороны
+    // граф оринтированный, поэтому связности только в одну сторону добавляем
     public void addAdjacency(int vertex1, int vertex2){
         adjacency.putIfAbsent(vertex1, new ArrayList<Integer>());
         adjacency.get(vertex1).add(vertex2);
-
-        adjacency.putIfAbsent(vertex2, new ArrayList<Integer>());
-        adjacency.get(vertex2).add(vertex1);
     }
 }
 
