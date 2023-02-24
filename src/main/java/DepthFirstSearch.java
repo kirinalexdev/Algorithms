@@ -13,7 +13,7 @@ import java.util.Map;
 public class DepthFirstSearch {
 
     public static void main(String[] args) {
-        Graph2 graph = new Graph2();
+        var graph = new Graph2();
         graph.addAdjacency(0, 0);
         graph.addAdjacency(0, 3);
         graph.addAdjacency(1, 0);

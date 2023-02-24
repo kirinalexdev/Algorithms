@@ -27,7 +27,7 @@ import java.util.*;
 public class BreadthFirstSearch {
 
     public static void main(String[] args) {
-        Graph graph = new Graph();
+        var graph = new Graph7();
         graph.addAdjacency(0, 0);
         graph.addAdjacency(0, 3);
         graph.addAdjacency(1, 0);
@@ -52,12 +52,12 @@ public class BreadthFirstSearch {
         BFS(graph, rootVertex, state, queue); // граф связный поэтому достаточно одной точки входа
     }
 
-    static void BFS(Graph graph, int v1, byte[] state, Queue<Integer> queue) {
+    static void BFS(Graph7 graph6, int v1, byte[] state, Queue<Integer> queue) {
         state[v1] = 2; // помечам вершину как пройденную
         System.out.println(v1);
 
         // обходим смежные вершины помещаем в очередь
-        for (Integer adjacentV: graph.getAdjacency().get(v1)) {
+        for (Integer adjacentV: graph6.getAdjacency().get(v1)) {
             if (state[adjacentV] == 0) {
                 state[adjacentV] = 1; // помечам вершину как в очереди
                 queue.offer(adjacentV);
@@ -67,14 +67,14 @@ public class BreadthFirstSearch {
         // обходим вершины в очереди
         while (!queue.isEmpty()) {
             var v2 = queue.poll();
-            BFS(graph, v2, state, queue);
+            BFS(graph6, v2, state, queue);
         }
     }
 }
 
 @Data
 @NoArgsConstructor
-class Graph{
+class Graph7{
     // для каждой вершины хранится список смежных с ней вершин
     private Map<Integer, List<Integer>> adjacency = new HashMap<>();
 
