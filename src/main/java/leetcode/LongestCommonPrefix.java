@@ -23,6 +23,7 @@ public class LongestCommonPrefix {
         String a;
         String b;
 
+        //!!! for переделать на while
         //!!! учесть что массив может быть из одной строки
         for (int i = 0; i < strs[0].length(); i++) {
             a = strs[0].substring(i, i + 1);
