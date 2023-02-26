@@ -1,4 +1,4 @@
-
+package Classic;
 // Обход в ширину в связном ориентированном графе
 // https://cf2.ppt-online.org/files2/slide/n/NnzFOd456oLM9bPREBqJf7eHvGmiwYAQTp108Z/slide-10.jpg
 

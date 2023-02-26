@@ -1,4 +1,4 @@
-
+package Classic;
 // https://www.techiedelight.com/ru/single-source-shortest-paths-dijkstras-algorithm/
 
 import java.util.*;
