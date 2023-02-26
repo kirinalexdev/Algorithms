@@ -11,5 +11,6 @@ class LongestCommonPrefixTest {
         assert "".equals(longestCommonPrefix(new String[]{"dog","racecar","car"}));
         assert "".equals(longestCommonPrefix(new String[]{}));
         assert "abc".equals(longestCommonPrefix(new String[]{"abc"}));
+        assert "".equals(longestCommonPrefix(new String[]{""}));
     }
 }
